@@ -10,6 +10,7 @@ import { property, subclass } from "@arcgis/core/core/accessorSupport/decorators
 import "./app.css"
 import externalRenderers from "esri/views/3d/externalRenderers"
 import Accessor from "esri/core/Accessor"
+import ManagedFBO from "esri/views/3d/webgl/ManagedFBO"
 
 
 
@@ -32,7 +33,7 @@ function App() {
 
   function initSceneView() {
     mapRef.current = new Map({
-      basemap: "dark-gray-vector",
+      basemap: "topo",
       ground: "world-elevation"
     })
 
@@ -103,15 +104,93 @@ function App() {
 
   function init3DObject() {
 
-    @subclass("external.renderer")
-    class ExternalRenderer extends RenderNode {
-      view: SceneView = sceneRef.current!
+      // @subclass()
+      // class RenderNodeSubclass extends RenderNode {
+
+      //   initialize () {
+      //     this.consumes.required.push("opaque-color")
+      //     this.produces = "opaque-color"
+      //     this.initShaders()
+      //     this.initData()
+      //   }
+        
+
+
+      //   render(inputs: ManagedFBO[]): ManagedFBO {
+      //     this.resetWebGLState()
+      //     const output = this.bindRenderTarget()
+
+      //     const gl = this.gl
+      //     const time = Date.now() / 1000
+
+      //     // Set some global WebGL state
+      //     gl.enable(gl.DEPTH_TEST)
+      //     gl.disable(gl.CULL_FACE)
+      //     gl.disable(gl.BLEND)
+
+      //   // XXX - Not implemented yet
+      //   /* 
+      //   // Enable our shader
+      //   gl.useProgram(this.program);
+      //   this.setCommonUniforms();
+
+      //   // Draw all the bases (one draw call)
+      //   this.bindWindmillBase();
+      //   glMatrix.mat4.identity(this.tempMatrix4);
+
+      //   // Apply local origin by translation the view matrix by the local origin, this will
+      //   // put the view origin (0, 0, 0) at the local origin
+      //   glMatrix.mat4.translate(this.tempMatrix4, this.tempMatrix4, this.localOriginRender);
+      //   glMatrix.mat4.multiply(this.tempMatrix4, this.camera.viewMatrix, this.tempMatrix4);
+      //   gl.uniformMatrix4fv(this.programUniformModelViewMatrix, false, this.tempMatrix4);
+
+      //   // Normals are in world coordinates, normal transformation is therefore identity
+      //   glMatrix.mat3.identity(this.tempMatrix3);
+      //   gl.uniformMatrix3fv(this.programUniformNormalMatrix, false, this.tempMatrix3);
+
+      //   gl.drawElements(gl.TRIANGLES, this.windmillBaseIndices.length, gl.UNSIGNED_SHORT, 0);
+
+      //   // Draw all the blades (one draw call per set of blades)
+      //   this.bindWindmillBlades();
+      //   for (let i = 0; i < this.numStations; ++i) {
+      //     // Current rotation of the blade (varies with time, random offset)
+      //     const bladeRotation = (time / 60) * this.windmillInstanceRPM[i] + i;
+
+      //     // Blade transformation:
+      //     // 1. Scale (according to blade size)
+      //     // 2. Rotate around Y axis (according to wind speed, varies with time)
+      //     // 3. Rotate around Z axis (according to wind direction)
+      //     // 4. Translate along Z axis (to where the blades are attached to the base)
+      //     // 5. Transform to render coordinates
+      //     // 6. Transform to view coordinates
+      //     glMatrix.mat4.identity(this.tempMatrix4);
+      //     glMatrix.mat4.translate(this.tempMatrix4, this.tempMatrix4, this.windmillInstanceBladeOffset[i]);
+      //     glMatrix.mat4.rotateZ(this.tempMatrix4, this.tempMatrix4, this.windmillInstanceWindDirection[i]);
+      //     glMatrix.mat4.rotateY(this.tempMatrix4, this.tempMatrix4, bladeRotation);
+      //     glMatrix.mat4.scale(this.tempMatrix4, this.tempMatrix4, this.windmillInstanceBladeScale[i]);
+      //     glMatrix.mat4.multiply(this.tempMatrix4, this.windmillInstanceInputToRender[i], this.tempMatrix4);
+      //     glMatrix.mat3.normalFromMat4(this.tempMatrix3, this.tempMatrix4);
+      //     glMatrix.mat4.multiply(this.tempMatrix4, this.camera.viewMatrix, this.tempMatrix4);
+      //     gl.uniformMatrix4fv(this.programUniformModelViewMatrix, false, this.tempMatrix4);
+      //     gl.uniformMatrix3fv(this.programUniformNormalMatrix, false, this.tempMatrix3);
+      //     gl.drawElements(gl.TRIANGLES, Windmill.blades_indices.length, gl.UNSIGNED_SHORT, 0);
+      //   }
+
+      //   // Draw continuously
+      //   this.requestRender();
+      //   */
+
+      //   // return output fbo (= input fbo)
+      //   return output;
+      // }
+
+
     }
 
 
 
 
-  }
+  
 
   React.useEffect(() => {
     initSceneView()
